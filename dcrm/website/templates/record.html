@@ -1,0 +1,30 @@
+<!--{#esta es una plantilla  en html que que utiliza el motor de plantilla de django
+se utiliza para mostrar los delatelles de un registro  del cliente espesifico 
+la platilla hereda lo que tiene  "base.html"  y define un bloque de contenido que se inserta en la plantilla base.html
+
+se muestra los deltalles del cliente como su nombre, apellido, email, telefono, direccion, ciudad, estado, codigo postal y fecha de creacion del registro.
+se una la sintaxis de django para acceder  alos atributos del objeto record que se pasa desde la vista al renderizar esta plantilla. "{ customer_record.nombre }"
+
+#}--!>
+
+<!-- record.html -->
+{% extends 'base.html' %} {% block content %}
+<div class="card">
+  <div class="card-body">
+    <h5 class="card-title">{{ customer_record.first_name }} {{ customer_record.last_name }}</h5>
+    <p class="card-text"><strong>Email:</strong> {{ customer_record.email }}</p>
+    <p class="card-text"><strong>Phone:</strong> {{ customer_record.phone }}</p>
+    <p class="card-text"><strong>Address:</strong> {{ customer_record.address }}</p>
+    <p class="card-text"><strong>City:</strong> {{ customer_record.city }}</p>
+    <p class="card-text"><strong>State:</strong> {{ customer_record.state }}</p>
+    <p class="card-text"><strong>Zip Code:</strong> {{ customer_record.zip_code }}</p>
+    <p class="card-text"><strong>Created At:</strong> {{ customer_record.created_at }}</p>
+    <p class="card-text"><strong>Created At:</strong> {{ customer_record.id }}</p>
+  </div>
+</div>
+<br/><br/>
+<a href="{% url 'home' %}" class="btn btn-primary">Back to Home</a>
+<a href="{% url 'delete_record' customer_record.id %}" class="btn btn-danger">Delete Record</a>
+<a href="{% url 'update_record' customer_record.id %}" class="btn btn-warning">Update Record</a>
+
+{% endblock %}
