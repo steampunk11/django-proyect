@@ -28,7 +28,7 @@ Esto facilita el seguimiento de clientes y la comunicación directa con ellos.
 
 ---
 
-### 📅 Control de Agendamientos y Facturación
+### Control de Agendamientos y Facturación
 
 El sistema incorpora un módulo para la administración de citas y servicios.
 
