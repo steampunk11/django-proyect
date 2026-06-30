@@ -1,0 +1,18 @@
+{% extends 'base.html' %} {% block content %}
+<div class="card">
+  <div class="card-body">
+    <h5 class="card-title">{{ customer_schedule.agendador }}</h5>
+    <p class="card-text"><strong>Email:</strong> {{ customer_schedule.concepto }}</p>
+    <p class="card-text"><strong>Address:</strong> {{ customer_schedule.precio_total }}</p>
+    <p class="card-text"><strong>Fecha:</strong> {{ customer_schedule.fecha }}</p>
+    <p class="card-text"><strong>Id_agendamiento:</strong> {{ customer_schedule.id_agendamiento }}</p>
+
+
+  </div>
+</div>
+<br/>
+<a href="{% url 'scheduling' %}" class="btn btn-primary">Back to Home</a>
+<a href="{% url 'delete_schedule' customer_schedule.id_agendamiento %}" class="btn btn-danger">Delete Record</a>
+<a href="{% url 'update_schedule' customer_schedule.id_agendamiento %}" class="btn btn-warning">Update Record</a>
+
+{% endblock %}

@@ -1,39 +1,27 @@
-{% extends 'base.html' %} {% block content %}
-<div class="container mt-5">
-  {% if user.is_authenticated %}
-    {% if user.is_superuser %}
-            
-        <h1 class="text-center">Bienvenido</h1>
-        <h1 class="text-center">Registros de usuarios</h1>
+{% extends 'base.html' %} 
+{% block content %}
+    <div class="container mt5">
+      <h1 class="text-center">Agendamientos</h1>
         <table class="table table-striped table-hover table-bordered">
             <thead>
               <tr>
-                <th scope="col">Nombre</th>
-                <th scope="col">Apellido</th>
-                <th scope="col">Email</th>
-                <th scope="col">Teléfono</th>
-                <th scope="col">Dirección</th>
-                <th scope="col">Ciudad</th>
-                <th scope="col">Estado</th>
-                <th scope="col">Código Postal</th>
-                <th scope="col">Fecha de Creación</th>
-                <th scope="col">Id</th>
+                <th scope="col">Concepto</th>
+                <th scope="col">Agendador</th>
+                <th scope="col">Precio total</th>
+                <th scope="col">Fecha agendada</th>
+                <th scope="col">Id_agendamiento</th>
               </tr>
             </thead>
 
             <tbody>
-              {% if records %} {% for record in records %}
+              {% if schedules %} 
+              {% for schedule in schedules %}
               <tr>
-                <td>{{ record.first_name }}</td>
-                <td>{{ record.last_name }}</td>
-                <td>{{ record.email }}</td>
-                <td>{{ record.phone }}</td>
-                <td>{{ record.address }}</td>
-                <td>{{ record.city }}</td>
-                <td>{{ record.state }}</td>
-                <td>{{ record.zip_code }}</td>
-                <td>{{ record.created_at }}</td>
-                <td><a href="{% url 'record' record.id %}">{{ record.id }}</a>🎇</td>
+                <td>{{ schedule.concepto }}</td>
+                <td>{{ schedule.agendador }}</td>
+                <td>{{ schedule.precio_total }}</td>
+                <td>{{ schedule.fecha }}</td>
+                <td><a href="{% url 'schedule_card' schedule.id_agendamiento %}">{{ schedule.id_agendamiento }}</a>🎇</td>
               </tr>
               {% endfor %} {% else %}
               <tr>
@@ -46,9 +34,7 @@
               {% endif %}
             </tbody>
         </table>
-        <!--PAGINACION DE LA PAGINA-->
-            <!-- Paginación -->
-              <!-- Paginación estilizada y responsive con Bootstrap -->
+
         <div class="container mt-5">
           <div class="row">
             <div class="col text-center">
@@ -73,9 +59,9 @@
                   {% endif %}
 
 
-                  {% for num in records.paginator.page_range %}
-                    {% if num >= records.number|add:'-2' and num <= records.number|add:'2' %}
-                      {% if records.number == num %}
+                  {% for num in schedules.paginator.page_range %}
+                    {% if num >= schedules.number|add:'-2' and num <= schedules.number|add:'2' %}
+                      {% if schedules.number == num %}
                         <li class="page-item active">
                           <span class="page-link">{{ num }}</span>
                         </li>
@@ -106,43 +92,13 @@
 
 
                 </ul>
-                <p class="text-muted mt-2">Página {{ records.number }} de {{ records.paginator.num_pages }}</p>
+                <p class="text-muted mt-2">Página {{ schedules.number }} de {{ schedules.paginator.num_pages }}</p>
               </nav>
             </div>
-            <a href="{% url 'scheduling' %}" class="btn btn-primary">ir a agendamientos</a>
           </div>
         </div>
-      {% else %}
-      <h1 class="text-center">Welcome</h1>
-      {% endif %}
-    {% else %}
-      <h1 class="text-center">🔐 Ingresar al sistema 👤</h1>
-      <form method="POST" action="{% url 'home' %}">
-        {% csrf_token %}
-        <br />
-        <div class="mb-3">
-          <input
-            type="text"
-            class="form-control"
-            name="username"
-            placeholder="Username"
-            required
-          />
-        </div>
-
-        <div class="mb-3">
-          <input
-            type="password"
-            class="form-control"
-            name="password"
-            placeholder="Password"
-            required
-          />
-        </div>
-
-        <button type="submit" class="btn btn-secondary w-100">Login</button>
-      </form>
-  {% endif %}
-</div>
-
-{% endblock %}
+        <a href="{% url 'home' %}" class="btn btn-primary">Volver a la página principal</a>
+        <a href="{% url 'add_schedule' %}" class="btn btn-primary">Agregar Agendamiento</a>
+    </div>
+{% endblock%}
+    

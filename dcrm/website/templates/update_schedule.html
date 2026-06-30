@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
   <div class="container mt-5">
     {% block content %}
-    <h2>Actualizar Registro</h2>
+    <h2>Actualizar Agendamiento</h2>
     <form method="POST">
       {% csrf_token %} {{ form.as_p }}
       <button type="submit" class="btn btn-primary">Actualizar</button>

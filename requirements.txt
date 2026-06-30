@@ -82,6 +82,7 @@ lxml==6.0.2
 # UTILIDADES DE DJANGO
 # ============================================
 django-crispy-forms==2.3
+django-bootstrap5==2024.10
 crispy-bootstrap5==2024.10
 django-extensions==3.2.3
 django-filter==24.3

@@ -32,13 +32,25 @@ class SignUpForm(UserCreationForm):
             self.fields['password2'].help_text = '<span class="form-text text-muted"><small>Ingrese la misma contraseña que antes, para verificación.</small></span>'
 
 class AddRecordForm(forms.ModelForm):
-    # Este es el otro formulario que mencionaba tu log de error
     class Meta:
         from .models import Record
         model = Record
-        fields = "__all__" # O lista los campos: ['first_name', 'last_name', etc.]
+        fields = "__all__"
         
     def __init__(self, *args, **kwargs):
         super(AddRecordForm, self).__init__(*args, **kwargs)
+        for field in self.fields:
+            self.fields[field].widget.attrs.update({'class': 'form-control'})
+            
+class AddScheduleForm(forms.ModelForm):
+    class Meta:
+        from .models import schedule
+        model = schedule
+        fields = "__all__"
+        widgets = {
+            'fecha': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
+        }
+    def __init__(self, *args, **kwargs):
+        super(AddScheduleForm, self).__init__(*args, **kwargs)  
         for field in self.fields:
             self.fields[field].widget.attrs.update({'class': 'form-control'})
