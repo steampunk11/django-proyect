@@ -153,7 +153,7 @@ SESSION_COOKIE_HTTPONLY = True # Evita que la cookie de sesión sea accesible a 
 
 SESSION_COOKIE_SAME_SITE = 'Lax' # Protege contra ataques CSRF al limitar el envío de cookies a solicitudes del mismo sitio
 
-SESSION_COOKIE_AGE = 10 # Expira la sesión después de 10 segundos de inactividad (ajusta según tus necesidades)
+SESSION_COOKIE_AGE = 300 # Expira la sesión después de 10 segundos de inactividad (ajusta según tus necesidades)
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True # Expira la sesión al cerrar el navegador    
 SESSION_SAVE_EVERY_REQUEST = True # Guarda la sesión en cada solicitud para actualizar el tiempo de expiración
 
