@@ -1,0 +1,158 @@
+/* ============================================================
+   CYBERSIGILISM CRM — Bootstrap Overrides
+   Ensures Bootstrap 5 components adopt the CSS variable palette.
+   ============================================================ */
+
+/* --- Root BS5 variable mapping -------------------------------- */
+:root {
+  --bs-body-bg:          var(--color-shadow-grey);
+  --bs-body-color:       var(--color-pale-sky);
+  --bs-border-color:     var(--border-subtle);
+  --bs-primary:          var(--color-deep-lilac);
+  --bs-primary-rgb:      131, 80, 196;
+  --bs-secondary:        var(--color-dusty-denim);
+  --bs-secondary-rgb:    115, 146, 181;
+  --bs-link-color:       var(--color-deep-lilac);
+  --bs-link-hover-color: var(--color-pale-sky);
+  --bs-font-sans-serif:  'Rajdhani', sans-serif;
+  --bs-card-bg:          var(--bg-card);
+  --bs-card-border-color:var(--border-subtle);
+  --bs-table-bg:         transparent;
+  --bs-table-striped-bg: rgba(131, 80, 196, 0.05);
+  --bs-table-hover-bg:   rgba(131, 80, 196, 0.1);
+  --bs-table-color:      var(--color-pale-sky);
+  --bs-table-border-color: var(--border-subtle);
+}
+
+/* --- Navbar (Bootstrap-rendered) ------------------------------ */
+.navbar {
+  background: var(--grad-navbar) !important;
+  border-bottom: 1px solid var(--border-subtle) !important;
+}
+
+.navbar-brand { color: var(--text-primary) !important; }
+
+.navbar-nav .nav-link {
+  color: var(--text-secondary) !important;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.9rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  transition: var(--transition-normal);
+}
+
+.navbar-nav .nav-link:hover,
+.navbar-nav .nav-link.active {
+  color: var(--text-primary) !important;
+}
+
+/* --- Card override -------------------------------------------- */
+.card {
+  background: var(--grad-card) !important;
+  border: 1px solid var(--border-subtle) !important;
+  border-radius: var(--radius-lg) !important;
+  color: var(--text-primary) !important;
+}
+
+.card-title { color: var(--text-primary); font-family: var(--font-heading); }
+.card-text  { color: var(--text-secondary); }
+.card strong{ color: var(--text-accent); }
+
+/* --- Table overrides ----------------------------------------- */
+.table {
+  --bs-table-bg: transparent;
+  --bs-table-color: var(--color-pale-sky);
+  --bs-table-border-color: var(--border-subtle);
+  --bs-table-striped-bg: rgba(131, 80, 196, 0.06);
+  --bs-table-hover-bg:   rgba(131, 80, 196, 0.12);
+}
+
+.table thead th {
+  font-family: var(--font-heading);
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-primary) !important;
+  background: rgba(64, 43, 71, 0.8) !important;
+  border-color: var(--border-subtle) !important;
+  padding: 0.9rem 0.8rem;
+}
+
+.table tbody td {
+  color: var(--text-secondary) !important;
+  border-color: rgba(131, 80, 196, 0.12) !important;
+  vertical-align: middle;
+}
+
+.table-striped > tbody > tr:nth-of-type(odd) > * {
+  background: rgba(131, 80, 196, 0.04) !important;
+  color: var(--text-secondary) !important;
+}
+
+.table-hover > tbody > tr:hover > * {
+  background: rgba(131, 80, 196, 0.1) !important;
+  color: var(--text-primary) !important;
+}
+
+.table-bordered > :not(caption) > * > * {
+  border-color: rgba(131, 80, 196, 0.15) !important;
+}
+
+/* --- Form overrides ------------------------------------------ */
+.form-control,
+.form-select {
+  background-color: var(--bg-input) !important;
+  border-color: var(--border-subtle) !important;
+  color: var(--text-primary) !important;
+  font-family: var(--font-body);
+}
+
+.form-control:focus,
+.form-select:focus {
+  border-color: var(--color-deep-lilac) !important;
+  box-shadow: 0 0 0 3px var(--accent-dim) !important;
+  background-color: rgba(64, 43, 71, 0.6) !important;
+}
+
+/* Autofill override */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0 1000px var(--color-midnight-violet) inset;
+  -webkit-text-fill-color: var(--text-primary);
+  caret-color: var(--text-primary);
+}
+
+/* --- Alert overrides ----------------------------------------- */
+.alert-dismissible .btn-close {
+  filter: invert(0.7) brightness(1.5);
+}
+
+/* --- Pagination (Bootstrap) ---------------------------------- */
+.pagination .page-link {
+  background-color: var(--bg-card) !important;
+  border-color: var(--border-subtle) !important;
+  color: var(--text-secondary) !important;
+  font-family: var(--font-mono);
+  transition: var(--transition-fast);
+}
+
+.pagination .page-link:hover {
+  background-color: var(--accent-dim) !important;
+  border-color: var(--border-primary) !important;
+  color: var(--text-primary) !important;
+}
+
+.pagination .page-item.active .page-link {
+  background: var(--grad-btn) !important;
+  border-color: var(--color-deep-lilac) !important;
+  color: var(--color-pale-sky) !important;
+  box-shadow: var(--accent-glow);
+}
+
+.pagination .page-item.disabled .page-link {
+  background-color: rgba(38,36,35,0.5) !important;
+  color: var(--text-muted) !important;
+  border-color: rgba(131,80,196,0.1) !important;
+}

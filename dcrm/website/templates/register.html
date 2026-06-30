@@ -1,6 +1,38 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <h2>Registro de Usuario</h2>
- 
+
+<div class="csig-login-wrapper">
+  <div class="csig-login-box csig-fade-in">
+
+    <div class="csig-login-sigil">
+      <div class="sigil-large"
+           style="width:48px;height:48px;background:var(--grad-accent);clip-path:var(--sigil-clip);
+                  animation:sigilPulse 3s ease-in-out infinite;
+                  filter:drop-shadow(0 0 10px var(--color-deep-lilac));"></div>
+    </div>
+
+    <div class="csig-page-header">
+      <h2>Registro de Usuario</h2>
+      <p style="color:var(--text-muted);font-family:var(--font-mono);font-size:0.8rem;
+                letter-spacing:0.05em;margin-top:0.3rem;">
+        CREAR NUEVA CUENTA
+      </p>
+    </div>
+
+    <div class="sigil-divider"><span class="sigil-star"></span></div>
+
+    <p style="text-align:center;color:var(--text-muted);font-family:var(--font-mono);font-size:0.8rem;">
+      Contacta al administrador para crear una cuenta de acceso.
+    </p>
+
+    <div style="margin-top:1.5rem;text-align:center;">
+      <a href="{% url 'home' %}" class="btn btn-secondary" id="btn-back-login">
+        <i class="bi bi-arrow-left me-1"></i>Volver al Login
+      </a>
+    </div>
+
+  </div>
+</div>
+
 {% endblock %}

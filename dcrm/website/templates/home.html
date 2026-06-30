@@ -1,148 +1,236 @@
-{% extends 'base.html' %} {% block content %}
-<div class="container mt-5">
-  {% if user.is_authenticated %}
-    {% if user.is_superuser %}
-            
-        <h1 class="text-center">Bienvenido</h1>
-        <h1 class="text-center">Registros de usuarios</h1>
-        <table class="table table-striped table-hover table-bordered">
-            <thead>
-              <tr>
-                <th scope="col">Nombre</th>
-                <th scope="col">Apellido</th>
-                <th scope="col">Email</th>
-                <th scope="col">Teléfono</th>
-                <th scope="col">Dirección</th>
-                <th scope="col">Ciudad</th>
-                <th scope="col">Estado</th>
-                <th scope="col">Código Postal</th>
-                <th scope="col">Fecha de Creación</th>
-                <th scope="col">Id</th>
-              </tr>
-            </thead>
+{% extends 'base.html' %}
 
-            <tbody>
-              {% if records %} {% for record in records %}
-              <tr>
-                <td>{{ record.first_name }}</td>
-                <td>{{ record.last_name }}</td>
-                <td>{{ record.email }}</td>
-                <td>{{ record.phone }}</td>
-                <td>{{ record.address }}</td>
-                <td>{{ record.city }}</td>
-                <td>{{ record.state }}</td>
-                <td>{{ record.zip_code }}</td>
-                <td>{{ record.created_at }}</td>
-                <td><a href="{% url 'record' record.id %}">{{ record.id }}</a>🎇</td>
-              </tr>
-              {% endfor %} {% else %}
-              <tr>
-                <td colspan="10">
-                  <div class="alert alert-info mb-0">
-                    No hay registros disponibles en este momento.
-                  </div>
-                </td>
-              </tr>
+{% block content %}
+
+{% if user.is_authenticated %}
+
+  {% if user.is_superuser %}
+
+    <!-- ── ADMIN DASHBOARD ─────────────────────────────── -->
+    <section class="csig-page-header csig-fade-in">
+      <h1 class="csig-glitch" data-text="Registros de Usuarios">
+        <i class="bi bi-database me-2" style="color:var(--color-deep-lilac);"></i>Registros de Usuarios
+      </h1>
+      <div class="sigil-divider">
+        <span class="sigil-star"></span>
+        <span style="font-family:var(--font-mono);font-size:0.78rem;color:var(--text-muted);">
+          SISTEMA CRM — PANEL DE CONTROL
+        </span>
+        <span class="sigil-star"></span>
+      </div>
+    </section>
+
+    <!-- Stats chips -->
+    <div class="csig-stats csig-fade-in">
+      <div class="csig-stat-chip">
+        <i class="bi bi-people-fill" style="color:var(--color-deep-lilac);"></i>
+        <span>Registros</span>
+        <span class="chip-value">{{ records.paginator.count }}</span>
+      </div>
+      <div class="csig-stat-chip">
+        <i class="bi bi-file-earmark-text" style="color:var(--color-dusty-denim);"></i>
+        <span>Página</span>
+        <span class="chip-value">{{ records.number }} / {{ records.paginator.num_pages }}</span>
+      </div>
+    </div>
+
+    <!-- Records table -->
+    <div class="csig-table-wrapper csig-fade-in">
+      <table class="csig-table" id="records-table">
+        <thead>
+          <tr>
+            <th scope="col">Nombre</th>
+            <th scope="col">Apellido</th>
+            <th scope="col">Email</th>
+            <th scope="col">Teléfono</th>
+            <th scope="col">Dirección</th>
+            <th scope="col">Ciudad</th>
+            <th scope="col">Estado</th>
+            <th scope="col">C.P.</th>
+            <th scope="col">Creación</th>
+            <th scope="col">ID</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% if records %}
+            {% for record in records %}
+            <tr>
+              <td>{{ record.first_name }}</td>
+              <td>{{ record.last_name }}</td>
+              <td style="font-family:var(--font-mono);font-size:0.82rem;">{{ record.email }}</td>
+              <td>{{ record.phone }}</td>
+              <td>{{ record.address }}</td>
+              <td>{{ record.city }}</td>
+              <td>{{ record.state }}</td>
+              <td style="font-family:var(--font-mono);">{{ record.zip_code }}</td>
+              <td style="font-family:var(--font-mono);font-size:0.8rem;color:var(--text-muted);">
+                {{ record.created_at|date:"d/m/Y" }}
+              </td>
+              <td>
+                <a href="{% url 'record' record.id %}" title="Ver detalle">
+                  <span class="sigil-star"></span>#{{ record.id }}
+                </a>
+              </td>
+            </tr>
+            {% endfor %}
+          {% else %}
+            <tr>
+              <td colspan="10">
+                <div class="alert alert-info mb-0" style="text-align:center;border:none;background:transparent;">
+                  <i class="bi bi-inbox me-2"></i>No hay registros disponibles.
+                </div>
+              </td>
+            </tr>
+          {% endif %}
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Pagination + actions -->
+    <div class="container mt-4 csig-fade-in">
+      <div class="csig-flex-between">
+
+        <!-- Pagination -->
+        <nav aria-label="Paginación de registros">
+          <ul class="pagination pagination-sm">
+
+            {% if records.has_previous %}
+              <li class="page-item">
+                <a class="page-link" href="?page=1" title="Primera página">&laquo;</a>
+              </li>
+              <li class="page-item">
+                <a class="page-link" href="?page={{ records.previous_page_number }}" title="Anterior">&lsaquo;</a>
+              </li>
+            {% else %}
+              <li class="page-item disabled"><span class="page-link">&laquo;</span></li>
+              <li class="page-item disabled"><span class="page-link">&lsaquo;</span></li>
+            {% endif %}
+
+            {% for num in records.paginator.page_range %}
+              {% if num >= records.number|add:'-2' and num <= records.number|add:'2' %}
+                {% if records.number == num %}
+                  <li class="page-item active">
+                    <span class="page-link">{{ num }}</span>
+                  </li>
+                {% else %}
+                  <li class="page-item">
+                    <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                  </li>
+                {% endif %}
               {% endif %}
-            </tbody>
-        </table>
-        <!--PAGINACION DE LA PAGINA-->
-            <!-- Paginación -->
-              <!-- Paginación estilizada y responsive con Bootstrap -->
-        <div class="container mt-5">
-          <div class="row">
-            <div class="col text-center">
-              <nav aria-label="Paginación de registros">
-                <ul class="pagination pagination-lg justify-content-center flex-wrap">
+            {% endfor %}
 
+            {% if records.has_next %}
+              <li class="page-item">
+                <a class="page-link" href="?page={{ records.next_page_number }}" title="Siguiente">&rsaquo;</a>
+              </li>
+              <li class="page-item">
+                <a class="page-link" href="?page={{ records.paginator.num_pages }}" title="Última">&raquo;</a>
+              </li>
+            {% else %}
+              <li class="page-item disabled"><span class="page-link">&rsaquo;</span></li>
+              <li class="page-item disabled"><span class="page-link">&raquo;</span></li>
+            {% endif %}
 
-                  {% if records.has_previous %}
-                    <li class="page-item">
-                      <a class="page-link bg-dark text-white" href="?page=1" title="Primera página">&laquo;</a>
-                    </li>
-                    <li class="page-item">
-                      <a class="page-link bg-dark text-white" href="?page={{ records.previous_page_number }}" title="Anterior">&lsaquo;</a>
-                    </li>
-                  {% else %}
-                    <li class="page-item disabled">
-                      <span class="page-link bg-secondary text-white">&laquo;</span>
-                    </li>
-                    <li class="page-item disabled">
-                      <span class="page-link bg-secondary text-white">&lsaquo;</span>
-                    </li>
-                  {% endif %}
+          </ul>
+          <p class="text-muted mt-1">
+            Página {{ records.number }} de {{ records.paginator.num_pages }}
+          </p>
+        </nav>
 
+        <!-- Quick action -->
+        <a href="{% url 'scheduling' %}" class="btn btn-primary" id="btn-scheduling">
+          <i class="bi bi-calendar3 me-1"></i>Ver Agendamientos
+        </a>
 
-                  {% for num in records.paginator.page_range %}
-                    {% if num >= records.number|add:'-2' and num <= records.number|add:'2' %}
-                      {% if records.number == num %}
-                        <li class="page-item active">
-                          <span class="page-link">{{ num }}</span>
-                        </li>
-                      {% else %}
-                        <li class="page-item">
-                          <a class="page-link" href="?page={{ num }}">{{ num }}</a>
-                        </li>
-                      {% endif %}
-                    {% endif %}
-                  {% endfor %}
+      </div>
+    </div>
 
+  {% else %}
+    <!-- Authenticated but not superuser -->
+    <div class="csig-welcome csig-fade-in">
+      <h1>
+        <i class="bi bi-shield-check me-2" style="color:var(--color-deep-lilac);"></i>
+        Bienvenido, {{ user.username }}
+      </h1>
+      <p style="color:var(--text-muted);font-family:var(--font-mono);">
+        No tienes permisos de administrador.
+      </p>
+    </div>
+  {% endif %}
 
-                  {% if records.has_next %}
-                    <li class="page-item">
-                      <a class="page-link bg-dark text-white" href="?page={{ records.next_page_number }}" title="Siguiente">&rsaquo;</a>
-                    </li>
-                    <li class="page-item">
-                      <a class="page-link bg-dark text-white" href="?page={{ records.paginator.num_pages }}" title="Última página">&raquo;</a>
-                    </li>
-                  {% else %}
-                    <li class="page-item disabled">
-                      <span class="page-link bg-secondary text-white">&rsaquo;</span>
-                    </li>
-                    <li class="page-item disabled">
-                      <span class="page-link bg-secondary text-white">&raquo;</span>
-                    </li>
-                  {% endif %}
+{% else %}
 
+  <!-- ── LOGIN FORM ──────────────────────────────────────── -->
+  <div class="csig-login-wrapper">
+    <div class="csig-login-box csig-fade-in">
 
-                </ul>
-                <p class="text-muted mt-2">Página {{ records.number }} de {{ records.paginator.num_pages }}</p>
-              </nav>
-            </div>
-            <a href="{% url 'scheduling' %}" class="btn btn-primary">ir a agendamientos</a>
-          </div>
-        </div>
-      {% else %}
-      <h1 class="text-center">Welcome</h1>
-      {% endif %}
-    {% else %}
-      <h1 class="text-center">🔐 Ingresar al sistema 👤</h1>
-      <form method="POST" action="{% url 'home' %}">
+      <div class="csig-login-sigil">
+        <div class="sigil-large"></div>
+      </div>
+
+      <div class="csig-page-header">
+        <h2>Acceso al Sistema</h2>
+        <p style="color:var(--text-muted);font-family:var(--font-mono);font-size:0.8rem;letter-spacing:0.05em;margin-top:0.3rem;">
+          AUTENTICACIÓN REQUERIDA
+        </p>
+      </div>
+
+      <div class="sigil-divider"><span class="sigil-star"></span></div>
+
+      <form method="POST" action="{% url 'home' %}" id="login-form">
         {% csrf_token %}
-        <br />
+
         <div class="mb-3">
+          <label for="login-username" class="csig-label">
+            <i class="bi bi-person me-1"></i>Usuario
+          </label>
           <input
             type="text"
             class="form-control"
+            id="login-username"
             name="username"
-            placeholder="Username"
+            placeholder="Ingresa tu usuario"
+            autocomplete="username"
             required
           />
         </div>
 
         <div class="mb-3">
+          <label for="login-password" class="csig-label">
+            <i class="bi bi-lock me-1"></i>Contraseña
+          </label>
           <input
             type="password"
             class="form-control"
+            id="login-password"
             name="password"
-            placeholder="Password"
+            placeholder="••••••••"
+            autocomplete="current-password"
             required
           />
         </div>
 
-        <button type="submit" class="btn btn-secondary w-100">Login</button>
+        <button type="submit" class="btn btn-primary w-100 mt-2" id="btn-login">
+          <i class="bi bi-box-arrow-in-right me-2"></i>Ingresar
+        </button>
+
+        <div class="sigil-divider" style="margin:1.5rem 0 1rem;">
+          <span class="sigil-star"></span>
+        </div>
+
+        <p style="text-align:center;font-family:var(--font-mono);font-size:0.78rem;color:var(--text-muted);">
+          ¿No tienes cuenta?
+          <a href="{% url 'register' %}"
+             style="color:var(--color-deep-lilac);text-decoration:none;font-weight:600;">
+            Regístrate
+          </a>
+        </p>
       </form>
-  {% endif %}
-</div>
+
+    </div>
+  </div>
+
+{% endif %}
 
 {% endblock %}

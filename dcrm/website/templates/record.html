@@ -1,30 +1,92 @@
-<!--{#esta es una plantilla  en html que que utiliza el motor de plantilla de django
-se utiliza para mostrar los delatelles de un registro  del cliente espesifico 
-la platilla hereda lo que tiene  "base.html"  y define un bloque de contenido que se inserta en la plantilla base.html
+{% extends 'base.html' %}
 
-se muestra los deltalles del cliente como su nombre, apellido, email, telefono, direccion, ciudad, estado, codigo postal y fecha de creacion del registro.
-se una la sintaxis de django para acceder  alos atributos del objeto record que se pasa desde la vista al renderizar esta plantilla. "{ customer_record.nombre }"
+{% block content %}
 
-#}--!>
-
-<!-- record.html -->
-{% extends 'base.html' %} {% block content %}
-<div class="card">
-  <div class="card-body">
-    <h5 class="card-title">{{ customer_record.first_name }} {{ customer_record.last_name }}</h5>
-    <p class="card-text"><strong>Email:</strong> {{ customer_record.email }}</p>
-    <p class="card-text"><strong>Phone:</strong> {{ customer_record.phone }}</p>
-    <p class="card-text"><strong>Address:</strong> {{ customer_record.address }}</p>
-    <p class="card-text"><strong>City:</strong> {{ customer_record.city }}</p>
-    <p class="card-text"><strong>State:</strong> {{ customer_record.state }}</p>
-    <p class="card-text"><strong>Zip Code:</strong> {{ customer_record.zip_code }}</p>
-    <p class="card-text"><strong>Created At:</strong> {{ customer_record.created_at }}</p>
-    <p class="card-text"><strong>Created At:</strong> {{ customer_record.id }}</p>
+<!-- Page Header -->
+<section class="csig-page-header csig-fade-in">
+  <h1>
+    <i class="bi bi-person-vcard me-2" style="color:var(--color-deep-lilac);"></i>
+    Detalle del Registro
+  </h1>
+  <div class="sigil-divider">
+    <span class="sigil-star"></span>
+    <span style="font-family:var(--font-mono);font-size:0.78rem;color:var(--text-muted);">
+      ID #{{ customer_record.id }}
+    </span>
+    <span class="sigil-star"></span>
   </div>
+</section>
+
+<!-- Detail Card -->
+<div class="csig-detail-card csig-fade-in">
+
+  <div class="csig-detail-row">
+    <span class="csig-detail-label"><i class="bi bi-person me-1"></i>Nombre Completo</span>
+    <span class="csig-detail-value">{{ customer_record.first_name }} {{ customer_record.last_name }}</span>
+  </div>
+
+  <div class="csig-detail-row">
+    <span class="csig-detail-label"><i class="bi bi-envelope me-1"></i>Email</span>
+    <span class="csig-detail-value" style="font-family:var(--font-mono);font-size:0.85rem;">
+      {{ customer_record.email }}
+    </span>
+  </div>
+
+  <div class="csig-detail-row">
+    <span class="csig-detail-label"><i class="bi bi-telephone me-1"></i>Teléfono</span>
+    <span class="csig-detail-value">{{ customer_record.phone }}</span>
+  </div>
+
+  <div class="csig-detail-row">
+    <span class="csig-detail-label"><i class="bi bi-geo-alt me-1"></i>Dirección</span>
+    <span class="csig-detail-value">{{ customer_record.address }}</span>
+  </div>
+
+  <div class="csig-detail-row">
+    <span class="csig-detail-label"><i class="bi bi-building me-1"></i>Ciudad</span>
+    <span class="csig-detail-value">{{ customer_record.city }}</span>
+  </div>
+
+  <div class="csig-detail-row">
+    <span class="csig-detail-label"><i class="bi bi-map me-1"></i>Estado</span>
+    <span class="csig-detail-value">{{ customer_record.state }}</span>
+  </div>
+
+  <div class="csig-detail-row">
+    <span class="csig-detail-label"><i class="bi bi-mailbox me-1"></i>Código Postal</span>
+    <span class="csig-detail-value" style="font-family:var(--font-mono);">
+      {{ customer_record.zip_code }}
+    </span>
+  </div>
+
+  <div class="csig-detail-row">
+    <span class="csig-detail-label"><i class="bi bi-calendar-check me-1"></i>Creado</span>
+    <span class="csig-detail-value" style="font-family:var(--font-mono);font-size:0.82rem;color:var(--text-muted);">
+      {{ customer_record.created_at }}
+    </span>
+  </div>
+
+  <div class="csig-detail-row">
+    <span class="csig-detail-label"><i class="bi bi-hash me-1"></i>ID del Registro</span>
+    <span class="csig-detail-value" style="font-family:var(--font-mono);color:var(--text-accent);">
+      #{{ customer_record.id }}
+    </span>
+  </div>
+
+  <!-- Actions -->
+  <div class="csig-action-row">
+    <a href="{% url 'home' %}" class="btn btn-secondary" id="btn-back-home">
+      <i class="bi bi-arrow-left me-1"></i>Volver
+    </a>
+    <a href="{% url 'update_record' customer_record.id %}" class="btn btn-warning" id="btn-update-record">
+      <i class="bi bi-pencil-square me-1"></i>Actualizar
+    </a>
+    <a href="{% url 'delete_record' customer_record.id %}" class="btn btn-danger" id="btn-delete-record"
+       onclick="return confirm('¿Eliminar registro #{{ customer_record.id }}?')">
+      <i class="bi bi-trash3 me-1"></i>Eliminar
+    </a>
+  </div>
+
 </div>
-<br/><br/>
-<a href="{% url 'home' %}" class="btn btn-primary">Back to Home</a>
-<a href="{% url 'delete_record' customer_record.id %}" class="btn btn-danger">Delete Record</a>
-<a href="{% url 'update_record' customer_record.id %}" class="btn btn-warning">Update Record</a>
 
 {% endblock %}

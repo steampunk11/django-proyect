@@ -1,10 +1,39 @@
 {% extends 'base.html' %}
-  <div class="container mt-5">
-    {% block content %}
-    <h2>Actualizar Registro</h2>
-    <form method="POST">
-      {% csrf_token %} {{ form.as_p }}
-      <button type="submit" class="btn btn-primary">Actualizar</button>
-    </form>
+
+{% block content %}
+
+<!-- Page Header -->
+<section class="csig-page-header csig-fade-in">
+  <h1>
+    <i class="bi bi-pencil-square me-2" style="color:var(--color-deep-lilac);"></i>
+    Actualizar Registro
+  </h1>
+  <div class="sigil-divider">
+    <span class="sigil-star"></span>
+    <span style="font-family:var(--font-mono);font-size:0.78rem;color:var(--text-muted);">
+      MODIFICAR DATOS DEL CLIENTE
+    </span>
+    <span class="sigil-star"></span>
   </div>
+</section>
+
+<!-- Form -->
+<div class="csig-form-wrapper csig-fade-in">
+  <p class="csig-form-subtitle">Actualiza los campos que necesites modificar.</p>
+
+  <form method="POST" id="update-record-form">
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    <div class="csig-action-row" style="margin-top:1.5rem;">
+      <button type="submit" class="btn btn-primary" id="btn-update-submit">
+        <i class="bi bi-check2-circle me-1"></i>Guardar Cambios
+      </button>
+      <a href="{% url 'home' %}" class="btn btn-outline-secondary" id="btn-cancel-update">
+        <i class="bi bi-x-circle me-1"></i>Cancelar
+      </a>
+    </div>
+  </form>
+</div>
+
 {% endblock %}
