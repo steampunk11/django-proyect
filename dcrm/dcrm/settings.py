@@ -79,7 +79,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'agendamiento',
-        'HOST':'localhost',
+        'HOST':'host.docker.internal',
         'USER':'root',
         'PORT':'3306',
         'PASSWORD':'',
